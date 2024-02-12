@@ -2,4 +2,10 @@
 
 ---
 
-The project will help you to find gaming PC components on your budget to build a complete gaming pc.
+The project will help you to find gaming PC components on your budget to build a complete gaming pc.  The list includes the following categories:
+### Graphics Cards
+### Processor 
+### Mother Board
+### SSD
+### Ram
+### Cabinet

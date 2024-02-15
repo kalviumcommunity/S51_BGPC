@@ -10,3 +10,9 @@ The project will help you to find gaming PC components on your budget to build a
 - Ram
 - SMPS
 - Cabinet
+
+---
+
+### Server URL
+
+ https://s51-gpc.onrender.com

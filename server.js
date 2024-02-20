@@ -1,14 +1,29 @@
 const express = require('express')
+const mongoose = require('mongoose')
+const { startDB, stopDB, isConnected } = require('./db.js')
 const app = express()
 
 app.get('/', (req, res)=>{
-    res.send("Listening/")
+    res.send(isConnected() ? "Connected" : "Disconnected")
 })
+
+process.on('SIGINT', async () => {
+  await stopDatabase();
+  process.exit(0);
+});
+
+process.on('SIGTERM', async () => {
+  await stopDatabase();
+  process.exit(0);
+});
 
 app.get('/ping', (req, res)=>{
     res.send("PONG")
 })
 
-app.listen(3000, ()=>{
-    console.log("Server is running on port 3000")
-})
+if (require.main == module){
+    app.listen(3000, async()=>{
+        await startDB()
+        console.log("Server is running on port 3000")
+    })
+}

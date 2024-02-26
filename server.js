@@ -2,6 +2,10 @@ const express = require('express')
 const mongoose = require('mongoose')
 const { startDB, stopDB, isConnected } = require('./db.js')
 const app = express()
+const route = require('./router/routes.js')
+
+app.use(express.json())
+app.use("/", route)
 
 app.get('/', (req, res)=>{
     res.send(isConnected() ? "Connected" : "Disconnected")
@@ -17,7 +21,7 @@ process.on('SIGTERM', async () => {
   process.exit(0);
 });
 
-app.get('/ping', (req, res)=>{
+app.get('/ping', (req, res)=>{1
     res.send("PONG")
 })
 

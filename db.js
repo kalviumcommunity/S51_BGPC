@@ -3,7 +3,7 @@ require('dotenv').config()
 
 const startDB = async () => {
   try {
-    await mongoose.connect("mongodb+srv://Monesh:987654321@gpc.hjimsyw.mongodb.net/?retryWrites=true&w=majority")
+    await mongoose.connect(`${process.env.mongoURI}`)
     console.log('📦 connected to mongoDB');
   } catch (err) {
     console.error('❌ error connecting to mongoDB:', err.message);

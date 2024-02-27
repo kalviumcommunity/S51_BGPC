@@ -5,7 +5,7 @@ import '../Styles/entity.css'
 const Entity = () => {
   
   return (
-    <div className='entity'>
+    <div className='data'>
       <h2>Entity</h2>
       <p>PC: {data.PC}</p>
       <p>CPU: {data.CPU}</p>

@@ -1,0 +1,10 @@
+{
+    "PC": "PC4",
+    "CPU": "Intel Pentium Gold G5400",
+    "GPU": "NVIDIA GTX 1050 Ti",
+    "RAM": "8GB DDR4",
+    "Storage": "1TB HDD",
+    "SMPS": "400W",
+    "Cabinet": "Mini Tower",
+    "Price_INR": "₹40,000"
+}

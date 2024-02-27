@@ -21,7 +21,7 @@ process.on('SIGTERM', async () => {
   process.exit(0);
 });
 
-app.get('/ping', (req, res)=>{1
+app.get('/ping', (req, res)=>{
     res.send("PONG")
 })
 

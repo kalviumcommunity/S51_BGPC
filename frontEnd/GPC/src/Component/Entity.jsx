@@ -1,27 +1,26 @@
 import React, { useEffect, useState } from 'react'
-import data from  '../data.json'
 import '../Styles/entity.css'
+import axios from "axios"
 
 const Entity = () => {
   const [ Database, setDatabase ] = useState([]) 
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try{
-        const response = await fetch("http://localhost:3000/getcomp")
-        const json = await response.json()
-        setDatabase(json)
-      }catch(err){
-        console.log('Error:', err)
-      }
-    }
-    fetchData()
-  }, [])
+  useEffect(() => { 
+    const loadPost = async () => { 
+
+        const response = await axios.get( 
+            "http://localhost:3000/getcomp"
+        ); 
+
+        setDatabase(response.data); 
+    }; 
+
+    loadPost(); 
+}, []);
   
   return (
     <>
-      <h2>Entities</h2>
-      {Database && Database.map((item, index) => {
+      { Database.map((item, index) => {
         return(
           <div key={index} className='entity'>
             <p>{item.PC}</p>

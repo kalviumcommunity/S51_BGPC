@@ -7,21 +7,18 @@ const cors = require('cors');
 
 app.use(express.json())
 app.use("/", route)
-app.use(cors())
-
+app.use(
+  cors())
+  app.use((_req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', '*');
+  
+    cors();
+  });
+// Example in Express.js
 app.get('/', (req, res)=>{
     res.send(isConnected() ? "Connected" : "Disconnected")
 })
-
-process.on('SIGINT', async () => {
-  await stopDatabase();
-  process.exit(0);
-});
-
-process.on('SIGTERM', async () => {
-  await stopDatabase();
-  process.exit(0);
-});
 
 app.get('/ping', (req, res)=>{
     res.send("PONG")

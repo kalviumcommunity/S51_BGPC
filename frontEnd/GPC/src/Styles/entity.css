@@ -8,4 +8,5 @@
     width: 400px;
     background-color: #F6F193;
     border-radius: 10px;
+    grid-template-columns: max-content 1fr;
 }

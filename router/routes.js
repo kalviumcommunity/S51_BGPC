@@ -6,6 +6,7 @@ const { profile } = require('console')
 
 
 router.get("/getcomp", async (req, res) => {
+    res.header("Access-Control-Allow-Origin","*")
     try{
         const profile = await Profile.find();
         res.status(200).json(profile)
@@ -16,6 +17,8 @@ router.get("/getcomp", async (req, res) => {
 })
 
 router.post("/postComp" , async (req, res) => {
+    res.header("Access-Control-Allow-Origin","*")
+
     try{
         const { PC, CPU, GPU, RAM, Storage, SMPS, Cabinet, Price_INR} = req.body
         if (!PC || !CPU || !GPU || !RAM || !Storage || !SMPS || !Cabinet || !Price_INR ){
@@ -31,6 +34,8 @@ router.post("/postComp" , async (req, res) => {
 })
 
 router.patch("/putComp/:PC", async (req, res) => {
+    res.header("Access-Control-Allow-Origin","*")
+
     try{
         const { PC } = req.params
         const updates = req.body
@@ -53,6 +58,8 @@ router.patch("/putComp/:PC", async (req, res) => {
 })
 
 router.delete("/delete/:PC", async (req, res) => {
+    res.header("Access-Control-Allow-Origin","*")
+
     try{
         const { PC } = req.params;
         const profile = await Profile.findOneAndDelete({ PC })

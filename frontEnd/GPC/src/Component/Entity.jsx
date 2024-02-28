@@ -1,20 +1,41 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import data from  '../data.json'
 import '../Styles/entity.css'
 
 const Entity = () => {
+  const [ Database, setDatabase ] = useState([]) 
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try{
+        const response = await fetch("https://s51-gpc.onrender.com/getcomp")
+        const json = await response.json()
+        setDatabase(json)
+      }catch(err){
+        console.log('Error:', err)
+      }
+    }
+    fetchData()
+  }, [])
   
   return (
-    <div className='data'>
-      <h2>Entity</h2>
-      <p>PC: {data.PC}</p>
-      <p>CPU: {data.CPU}</p>
-      <p>GPU: {data.GPU}</p>
-      <p>RAM: {data.RAM}</p>
-      <p>Storage: {data.Storage}</p>
-      <p>Cabinet: {data.Cabinet}</p>
-      <p>Price: {data.Price_INR}</p>
-    </div>
+    <>
+      <h2>Entities</h2>
+      {Database && Database.map((item, index) => {
+        return(
+          <div key={index} className='entity'>
+            <p>{item.PC}</p>
+            <p>{item.CPU}</p>
+            <p>{item.GPU}</p>
+            <p>{item.RAM}</p>
+            <p>{item.Storage}</p>
+            <p>{item.SMPS}</p>
+            <p>{item.Cabinet}</p>
+            <p>{item.Price_INR}</p>
+          </div>
+        )
+      })}
+    </>
   )
 }
 

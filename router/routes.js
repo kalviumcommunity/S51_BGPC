@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const Joi = require('joi')
 const Profile = require('../models/comp.model');
 
 router.use((req, res, next) => {
@@ -7,6 +8,17 @@ router.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   next(); 
+});
+
+const postCompSchema = Joi.object({
+  PC: Joi.string().required(),
+  CPU: Joi.string().required(),
+  GPU: Joi.string().required(),
+  RAM: Joi.string().required(),
+  Storage: Joi.string().required(),
+  SMPS: Joi.string().required(),
+  Cabinet: Joi.string().required(),
+  Price_INR: Joi.number().required()
 });
 
 router.get("/getcomp", async (req, res) => {
@@ -37,10 +49,12 @@ router.get("/getcomp/:pc", async (req, res) => {
 
 router.post("/postComp", async (req, res) => {
   try {
-    const { PC, CPU, GPU, RAM, Storage, SMPS, Cabinet, Price_INR } = req.body;
-    if (!PC || !CPU || !GPU || !RAM || !Storage || !SMPS || !Cabinet || !Price_INR) {
-      return res.status(400).send({ message: "Please provide all fields." });
+    const { error } = postCompSchema.validate(req.body);
+    if (error) {
+      return res.status(400).send({ message: error.details[0].message });
     }
+
+    const { PC, CPU, GPU, RAM, Storage, SMPS, Cabinet, Price_INR } = req.body;
     const comp = new Profile({ PC, CPU, GPU, RAM, Storage, SMPS, Cabinet, Price_INR });
     await comp.save();
     res.status(201).json({ message: "Success", added_Profile: { comp } });
@@ -53,6 +67,11 @@ router.post("/postComp", async (req, res) => {
 router.patch("/putComp/:PC", async (req, res) => {
   try {
     const { PC } = req.params;
+    const { error } = patchCompSchema.validate(req.body);
+    if (error) {
+      return res.status(400).send({ message: error.details[0].message });
+    }
+
     const updates = req.body;
 
     const profile = await Profile.findOneAndUpdate(

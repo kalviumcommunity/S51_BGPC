@@ -4,14 +4,30 @@ const Profile = require('../models/comp.model');
 
 router.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   next(); 
 });
 
 router.get("/getcomp", async (req, res) => {
   try {
-    const profile = await Profile.find();
+    const profiles = await Profile.find();
+    res.status(200).json(profiles);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+router.get("/getcomp/:pc", async (req, res) => {
+  try {
+    const { pc } = req.params;
+    const profile = await Profile.findOne({ PC: pc });
+
+    if (!profile) {
+      return res.status(404).json({ message: "Profile not found" });
+    }
+
     res.status(200).json(profile);
   } catch (err) {
     console.error(err.message);
@@ -49,7 +65,7 @@ router.patch("/putComp/:PC", async (req, res) => {
       return res.status(404).send({ message: "Profile not found" });
     }
 
-    res.status(200).send({ message: "Successfully added" });
+    res.status(200).send({ message: "Successfully updated" });
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Error");
@@ -64,7 +80,7 @@ router.delete("/delete/:PC", async (req, res) => {
     if (!profile) {
       return res.status(404).json({ message: "Profile not found" });
     }
-    res.status(200).send({ message: "delete" });
+    res.status(200).send({ message: "Deleted" });
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server error");

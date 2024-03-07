@@ -9,10 +9,13 @@ const Entity = () => {
   useEffect(() => {
     const loadPost = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/getcomp');
+        const response = await axios.get('https://s51-gpc.onrender.com/getcomp');
         setDatabase(response.data);
       } catch (error) {
         console.error('Error fetching entities:', error);
+        console.error('Response data:', error.response.data);
+        console.error('Response status:', error.response.status);
+        console.error('Response headers:', error.response.headers);
       }
     };
 
@@ -21,7 +24,7 @@ const Entity = () => {
 
   const handleDelete = async (pc) => {
     try {
-      await axios.delete(`http://localhost:3000/delete/${pc}`);
+      await axios.delete(`https://s51-gpc.onrender.com/delete/${pc}`);
       setDatabase(Database.filter(item => item.PC !== pc));
     } catch (error) {
       console.error('Error deleting entity:', error);

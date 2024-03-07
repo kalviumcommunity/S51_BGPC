@@ -1,7 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const Joi = require('joi')
+const Joi = require('joi');
 const Profile = require('../models/comp.model');
+const User = require('../models/user.model');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
+
 
 router.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -18,7 +22,48 @@ const postCompSchema = Joi.object({
   Storage: Joi.string().required(),
   SMPS: Joi.string().required(),
   Cabinet: Joi.string().required(),
-  Price_INR: Joi.number().required()
+  Price_INR: Joi.string().required()
+});
+
+const loginSchema = Joi.object({
+  username: Joi.string().required(),
+  password: Joi.string().required(),
+});
+
+router.post('/login', async (req, res) => {
+  try {
+    const { username, password } = req.body;
+
+    const { error } = loginSchema.validate({ username, password });
+    if (error) {
+      return res.status(400).json({ message: error.details[0].message });
+    }
+
+    // Find user in the collection
+    const user = await User.findOne({ username, password });
+
+    if (!user) {
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
+
+    // Create JWT token
+    const token = jwt.sign({ username: user.username, userId: user._id }, process.env.SECRET);
+    res.cookie('userToken', token, { httpOnly: true });
+    res.json({ message: 'Login successful', token });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+router.get('/logout', async (req, res) => {
+  try {
+    res.clearCookie('userToken');
+    res.json({ message: 'Logout successful' });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Internal Server Error');
+  }
 });
 
 router.get("/getcomp", async (req, res) => {
@@ -67,10 +112,6 @@ router.post("/postComp", async (req, res) => {
 router.patch("/putComp/:PC", async (req, res) => {
   try {
     const { PC } = req.params;
-    const { error } = patchCompSchema.validate(req.body);
-    if (error) {
-      return res.status(400).send({ message: error.details[0].message });
-    }
 
     const updates = req.body;
 

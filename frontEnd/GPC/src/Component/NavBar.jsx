@@ -8,7 +8,7 @@ const Navbar = ({ onLogout }) => {
   const handleLogout = async () => {
     try {
       onLogout();
-      await axios.get('http://localhost:3000/logout');
+      await axios.get('https://s51-gpc.onrender.com/logout');
       navigate('/');
     } catch (error) {
       console.error('Logout failed:', error.message);

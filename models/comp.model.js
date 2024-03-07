@@ -11,6 +11,14 @@ const profileSchema = new mongoose.Schema({
   Price_INR: String
 });
 
+const userSchema = new mongoose.Schema({
+  username: { type: String, required: true },
+  password: { type: String, required: true },
+});
+
+const User = mongoose.model('User', userSchema);
+
 const Profile = mongoose.model("gpccs", profileSchema);
 
 module.exports = Profile;
+module.exports = User;

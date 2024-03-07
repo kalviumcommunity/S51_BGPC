@@ -18,7 +18,7 @@ const postCompSchema = Joi.object({
   Storage: Joi.string().required(),
   SMPS: Joi.string().required(),
   Cabinet: Joi.string().required(),
-  Price_INR: Joi.number().required()
+  Price_INR: Joi.string().required()
 });
 
 router.get("/getcomp", async (req, res) => {
@@ -67,10 +67,6 @@ router.post("/postComp", async (req, res) => {
 router.patch("/putComp/:PC", async (req, res) => {
   try {
     const { PC } = req.params;
-    const { error } = patchCompSchema.validate(req.body);
-    if (error) {
-      return res.status(400).send({ message: error.details[0].message });
-    }
 
     const updates = req.body;
 

@@ -18,7 +18,7 @@ const Patch = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/getcomp/${pc}`);
+        const response = await axios.get(`https://s51-gpc.onrender.com/getcomp/${pc}`);
         console.log(response.data)
         setConfig(response.data);
       } catch (error) {

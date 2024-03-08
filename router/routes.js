@@ -40,26 +40,26 @@ router.post('/login', async (req, res) => {
       return res.status(400).json({ message: error.details[0].message });
     }
     
-    const user = await User.findOne({ username });
+    const foundUser = await User.findOne({ username });
     
-    if (!user) {
+    if (!foundUser) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
     
-    const passwordMatch = bcrypt.compareSync(password, user.password);
+    const passwordMatch = bcrypt.compareSync(password, foundUser.password);
     if (!passwordMatch) {
       return res.status(400).json({
         Message: "Password incorrect"
       });
     }
 
-    const token = jwt.sign({ username: user.username, userId: user._id }, process.env.SECRET);
+    const token = jwt.sign({ username: foundUser.username, userId: foundUser._id }, process.env.SECRET);
     res.cookie('userToken', token, { httpOnly: true });
     res.json({ message: 'Login successful', token });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Internal Server Error');
-  }
+  } 
 });
 
 router.get('/logout', async (req, res) => {

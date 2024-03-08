@@ -4,6 +4,7 @@ const Joi = require('joi');
 const Profile = require('../models/comp.model');
 const User = require('../models/user.model');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt')
 require('dotenv').config();
 
 
@@ -37,6 +38,19 @@ router.post('/login', async (req, res) => {
     const { error } = loginSchema.validate({ username, password });
     if (error) {
       return res.status(400).json({ message: error.details[0].message });
+    }
+    
+    const user = await User.findOne({ username });
+    
+    if (!user) {
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
+    
+    const passwordMatch = bcrypt.compareSync(password, user.password);
+    if (!passwordMatch) {
+      return res.status(400).json({
+        Message: "Password incorrect"
+      });
     }
 
     const user = await User.findOne({ username, password });

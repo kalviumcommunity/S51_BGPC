@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import '../Styles/loginForm.css'
+import '../Styles/loginForm.css';
 
 const Login = ({ onLogin }) => {
   const [username, setUsername] = useState('');
@@ -17,6 +17,7 @@ const Login = ({ onLogin }) => {
       });
 
       console.log(response.data);
+      document.cookie = `userToken=${response.data.token}`;
 
       onLogin();
     } catch (err) {

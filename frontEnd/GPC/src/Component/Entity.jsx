@@ -4,7 +4,8 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 const Entity = () => {
-  const [Database, setDatabase] = useState([]);
+  const [database, setDatabase] = useState([]);
+  const [selectedCreator, setSelectedCreator] = useState('all');
 
   useEffect(() => {
     const loadPost = async () => {
@@ -25,16 +26,32 @@ const Entity = () => {
   const handleDelete = async (pc) => {
     try {
       await axios.delete(`https://s51-gpc.onrender.com/delete/${pc}`);
-      setDatabase(Database.filter(item => item.PC !== pc));
+      setDatabase(database.filter(item => item.PC !== pc));
     } catch (error) {
       console.error('Error deleting entity:', error);
     }
   };
 
+  const handleFilterChange = (event) => {
+    setSelectedCreator(event.target.value);
+  };
+
+  const filteredDatabase = selectedCreator === 'all' ?
+    database :
+    database.filter(item => item.Creator === selectedCreator);
+
   return (
     <>
+      <div>
+        <select value={selectedCreator} onChange={handleFilterChange}>
+          <option value="all">All</option>
+          <option value="Mark Zuckerberg">Mark Zuckerberg</option>
+          <option value="Bill Gates">Bill Gates</option>
+          <option value="Elon Musk">Elon Musk</option>
+        </select>
+      </div>
       <div className='getentity'>
-        {Database.map((item, index) => (
+        {filteredDatabase.map((item, index) => (
           <div key={index} className="entity">
             <h2>Config</h2>
             <p>PC: {item.PC}</p>
@@ -45,6 +62,7 @@ const Entity = () => {
             <p>SMPS: {item.SMPS}</p>
             <p>Cabinet: {item.Cabinet}</p>
             <p>Price: {item.Price_INR}</p>
+            <p>Creator: {item.Creator}</p>
             <button onClick={() => handleDelete(item.PC)} id='btns'>Delete</button>
             <Link to={`/edit/${item.PC}`}>
               <button id='btns'>Edit</button>

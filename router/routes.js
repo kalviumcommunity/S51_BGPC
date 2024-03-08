@@ -53,6 +53,12 @@ router.post('/login', async (req, res) => {
       });
     }
 
+    const user = await User.findOne({ username, password });
+
+    if (!user) {
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
+
     const token = jwt.sign({ username: user.username, userId: user._id }, process.env.SECRET);
     res.cookie('userToken', token, { httpOnly: true });
     res.json({ message: 'Login successful', token });

@@ -39,14 +39,12 @@ router.post('/login', async (req, res) => {
       return res.status(400).json({ message: error.details[0].message });
     }
 
-    // Find user in the collection
     const user = await User.findOne({ username, password });
 
     if (!user) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
-    // Create JWT token
     const token = jwt.sign({ username: user.username, userId: user._id }, process.env.SECRET);
     res.cookie('userToken', token, { httpOnly: true });
     res.json({ message: 'Login successful', token });

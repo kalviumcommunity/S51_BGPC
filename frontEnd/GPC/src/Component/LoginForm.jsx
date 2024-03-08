@@ -16,9 +16,8 @@ const Login = ({ onLogin }) => {
         password,
       });
 
-      console.log(response.data); // Response from the server
+      console.log(response.data);
 
-      // Call onLogin function to update isLoggedIn state
       onLogin();
     } catch (err) {
       if (err.response && err.response.data && err.response.data.message) {

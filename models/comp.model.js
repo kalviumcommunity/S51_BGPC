@@ -14,3 +14,5 @@ const profileSchema = new mongoose.Schema({
 const Profile = mongoose.model("gpccs", profileSchema);
 
 module.exports = Profile;
+
+

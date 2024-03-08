@@ -1,15 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const Joi = require('joi')
+const Joi = require('joi');
 const Profile = require('../models/comp.model');
-<<<<<<< Updated upstream
-=======
 const User = require('../models/user.model');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt')
 require('dotenv').config();
 
->>>>>>> Stashed changes
 
 router.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -29,8 +26,6 @@ const postCompSchema = Joi.object({
   Price_INR: Joi.string().required()
 });
 
-<<<<<<< Updated upstream
-=======
 const loginSchema = Joi.object({
   username: Joi.string().required(),
   password: Joi.string().required(),
@@ -45,17 +40,17 @@ router.post('/login', async (req, res) => {
       return res.status(400).json({ message: error.details[0].message });
     }
     
-    const passwordMatch = bcrypt.compareSync(password, User.password);
-    if(!passwordMatch){
-      return res.status(400).json({
-        Message: "Password incorrect"
-      })
-    }
-
-    const user = await User.findOne({ username, password });
-
+    const user = await User.findOne({ username });
+    
     if (!user) {
       return res.status(401).json({ message: 'Invalid credentials' });
+    }
+    
+    const passwordMatch = bcrypt.compareSync(password, user.password);
+    if (!passwordMatch) {
+      return res.status(400).json({
+        Message: "Password incorrect"
+      });
     }
 
     const token = jwt.sign({ username: user.username, userId: user._id }, process.env.SECRET);
@@ -77,7 +72,6 @@ router.get('/logout', async (req, res) => {
   }
 });
 
->>>>>>> Stashed changes
 router.get("/getcomp", async (req, res) => {
   try {
     const profiles = await Profile.find();

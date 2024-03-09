@@ -1,12 +1,15 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom'; 
-import '../Styles/navbar.css'
+import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
+import '../Styles/navbar.css';
 
 const Navbar = ({ onLogout }) => {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
+      document.cookie = 'userToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+
       onLogout();
       await axios.get('https://s51-gpc.onrender.com/logout');
       navigate('/');

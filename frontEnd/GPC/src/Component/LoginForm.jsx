@@ -40,6 +40,8 @@ const Login = ({ onLogin }) => {
             id="username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            placeholder="Enter your username"
+            required
           />
         </div>
         <div className="form-group">
@@ -49,10 +51,14 @@ const Login = ({ onLogin }) => {
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            placeholder="Enter your password"
+            required
           />
         </div>
         {error && <div className="error-message">{error}</div>}
-        <button type="submit">Login</button>
+        <button type="submit" className="login-btn" onClick={handleSubmit}>
+          Login
+        </button>
       </form>
     </div>
   );

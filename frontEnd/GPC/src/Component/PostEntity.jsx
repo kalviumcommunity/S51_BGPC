@@ -27,25 +27,16 @@ const PostComponent = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+    console.log("Submitting data:", formData);
 
     try {
-      const response = await axios.post('http://localhost:3000/postComp', {
-        PC: formData.PC,
-        CPU: formData.CPU,
-        GPU: formData.GPU,
-        RAM: formData.RAM,
-        Storage: formData.Storage,
-        SMPS: formData.SMPS,
-        Cabinet: formData.Cabinet,
-        Price_INR: formData.Price_INR
-      });
-      console.log(response.data);
+      const response = await axios.post('http://localhost:3000/postComp', formData);
+      console.log("Response data:", response.data);
       
-      navigate('/'); 
+      navigate('/');
 
     } catch (error) {
-      console.error(error);
+      console.error("Axios error:", error);
     }
   };
 

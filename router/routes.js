@@ -7,13 +7,13 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt')
 require('dotenv').config();
 
-
 router.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  next(); 
+  next();
 });
+
 
 const postCompSchema = Joi.object({
   PC: Joi.string().required(),

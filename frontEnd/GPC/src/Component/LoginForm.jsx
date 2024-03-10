@@ -6,9 +6,11 @@ const Login = ({ onLogin }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
       const response = await axios.post('https://s51-gpc.onrender.com/login', {
@@ -26,6 +28,8 @@ const Login = ({ onLogin }) => {
       } else {
         setError('An error occurred');
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -56,9 +60,10 @@ const Login = ({ onLogin }) => {
           />
         </div>
         {error && <div className="error-message">{error}</div>}
-        <button type="submit" className="login-btn" onClick={handleSubmit}>
-          Login
+        <button type="submit" className="login-btn" disabled={loading}>
+          {loading ? 'Loading...' : 'Login'}
         </button>
+        {loading && <div className="loading-spinner"></div>}
       </form>
     </div>
   );

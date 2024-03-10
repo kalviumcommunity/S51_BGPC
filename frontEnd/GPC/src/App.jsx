@@ -5,6 +5,7 @@ import PostComponent from './Component/PostEntity';
 import Navbar from './Component/NavBar';
 import Patch from './Component/Patch';
 import Login from './Component/LoginForm'; 
+import About from './Component/About';
 import './App.css';
 
 const App = () => {
@@ -26,6 +27,7 @@ const App = () => {
           <Routes>
             <Route path="/post" element={<PostComponent />} />
             <Route path="/" element={<Entity />} />
+            <Route path="/about" element={<About />} />
             <Route path="/edit/:pc" element={<Patch />} />
           </Routes>
         </>

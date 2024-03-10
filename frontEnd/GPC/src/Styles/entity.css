@@ -3,20 +3,96 @@
   flex-wrap: wrap;
   justify-content: center;
   gap: 30px;
+  padding: 20px;
 }
 
 .entity {
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 1px solid black;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  width: 400px;
-  background-color: #4CAF50;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  padding: 20px;
+  background-color: #ffffff;
   border-radius: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.entity h2{
-    font-weight: 700;
+.entity:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1);
 }
 
+.entity h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #333333;
+}
+
+.entity p {
+  margin: 5px 0;
+  font-size: 1rem;
+  color: #555555;
+}
+
+.btn-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+#btns {
+  padding: 8px 16px;
+  margin-top: 10px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #ffffff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#btns:hover {
+  background-color: #0056b3;
+}
+
+#btns.link {
+  background-color: #28a745;
+}
+
+#btns.link:hover {
+  background-color: #218838;
+}
+
+#creators {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 200px;
+  appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" stroke="%23333"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>');
+  background-repeat: no-repeat;
+  background-position-x: 95%;
+  background-position-y: center;
+  margin-bottom: 20px;
+}
+
+#creators option {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  background-color: white;
+}
+
+#creators option:checked {
+  background-color: #ccc;
+}
+
+#creators option:hover {
+  background-color: #f0f0f0;
+}

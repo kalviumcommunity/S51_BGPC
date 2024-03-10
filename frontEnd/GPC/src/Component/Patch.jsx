@@ -40,7 +40,7 @@ const Patch = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.patch(`http://localhost:3000/putComp/${pc}`, config);
+      await axios.patch(`https://s51-gpc.onrender.com/putComp/${pc}`, config);
       navigate('/');
     } catch (error) {
       console.error('Error updating entity:', error);

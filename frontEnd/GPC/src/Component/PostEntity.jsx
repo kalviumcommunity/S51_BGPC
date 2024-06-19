@@ -67,7 +67,7 @@ const PostComponent = () => {
     console.log("Submitting data:", formData);
 
     try {
-      const response = await axios.post('http://localhost:3000/postComp', formData);
+      const response = await axios.post('http://s51-gpc.onrender.com/postComp', formData);
       console.log("Response data:", response.data);
 
       navigate('/');

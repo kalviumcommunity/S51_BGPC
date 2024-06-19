@@ -8,7 +8,8 @@ const profileSchema = new mongoose.Schema({
   Storage: String,
   SMPS: String,
   Cabinet: String,
-  Price_INR: String
+  Price_INR: String,
+  Creator: String,
 });
 
 const Profile = mongoose.model("gpccs", profileSchema);

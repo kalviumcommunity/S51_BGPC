@@ -23,7 +23,8 @@ const postCompSchema = Joi.object({
   Storage: Joi.string().required(),
   SMPS: Joi.string().required(),
   Cabinet: Joi.string().required(),
-  Price_INR: Joi.string().required()
+  Price_INR: Joi.string().required(),
+  Creator: Joi.string().required(),
 });
 
 const loginSchema = Joi.object({
@@ -105,8 +106,8 @@ router.post("/postComp", async (req, res) => {
       return res.status(400).send({ message: error.details[0].message });
     }
 
-    const { PC, CPU, GPU, RAM, Storage, SMPS, Cabinet, Price_INR } = req.body;
-    const comp = new Profile({ PC, CPU, GPU, RAM, Storage, SMPS, Cabinet, Price_INR });
+    const { PC, CPU, GPU, RAM, Storage, SMPS, Cabinet, Price_INR, Creator } = req.body;
+    const comp = new Profile({ PC, CPU, GPU, RAM, Storage, SMPS, Cabinet, Price_INR, Creator });
     await comp.save();
     res.status(201).json({ message: "Success", added_Profile: { comp } });
   } catch (err) {

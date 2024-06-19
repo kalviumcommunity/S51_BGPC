@@ -20,6 +20,7 @@ const Login = ({ onLogin }) => {
 
       console.log(response.data);
       document.cookie = `userToken=${response.data.token}`;
+      document.cookie = `userName=${username}`;
 
       onLogin();
     } catch (err) {
@@ -60,7 +61,7 @@ const Login = ({ onLogin }) => {
           />
         </div>
         {error && <div className="error-message">{error}</div>}
-        <button type="submit" className="login-btn" disabled={loading}>
+        <button type="submit" className="login-btn" disabled={loading} onClick={handleSubmit}>
           {loading ? 'Loading...' : 'Login'}
         </button>
         {loading && <div className="loading-spinner"></div>}

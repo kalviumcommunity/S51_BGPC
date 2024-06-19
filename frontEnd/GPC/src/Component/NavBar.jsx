@@ -9,6 +9,7 @@ const Navbar = ({ onLogout }) => {
   const handleLogout = async () => {
     try {
       document.cookie = 'userToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+      document.cookie = 'userName=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
 
       onLogout();
       await axios.get('https://s51-gpc.onrender.com/logout');

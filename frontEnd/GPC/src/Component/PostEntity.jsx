@@ -12,7 +12,8 @@ const PostComponent = () => {
     Storage: '',
     SMPS: '',
     Cabinet: '',
-    Price_INR: ''
+    Price_INR: '',
+    Creator: '',
   });
 
   const navigate = useNavigate();
@@ -22,29 +23,35 @@ const PostComponent = () => {
       try {
         const response = await axios.get('https://s51-gpc.onrender.com/getcomp');
         const database = response.data;
-        
+
         if (database.length > 0) {
           const maxId = Math.max(...database.map(item => parseInt(item.PC.slice(2))));
           const newPC = `PC${maxId + 1}`;
-          setFormData({
-            ...formData,
+          setFormData(prevFormData => ({
+            ...prevFormData,
             PC: newPC
-          });
+          }));
         } else {
-          setFormData({
-            ...formData,
+          setFormData(prevFormData => ({
+            ...prevFormData,
             PC: 'PC1'
-          });
+          }));
         }
       } catch (error) {
         console.error("Error fetching entities:", error);
-        console.error("Response data:", error.response.data);
-        console.error("Response status:", error.response.status);
-        console.error("Response headers:", error.response.headers);
+        console.error("Response data:", error.response?.data);
+        console.error("Response status:", error.response?.status);
+        console.error("Response headers:", error.response?.headers);
       }
     };
 
     loadMaxPC();
+
+    const creator = getCookie('userName');
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      Creator: creator
+    }));
   }, []);
 
   const handleChange = (e) => {
@@ -58,25 +65,33 @@ const PostComponent = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Submitting data:", formData);
-  
+
     try {
-      const response = await axios.post('https://s51-gpc.onrender.com/postComp', formData);
+      const response = await axios.post('http://localhost:3000/postComp', formData);
       console.log("Response data:", response.data);
-      
+
       navigate('/');
-  
+
     } catch (error) {
       console.error("Axios error:", error);
     }
   };
-  
+
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) {
+      return parts.pop().split(';').shift();
+    }
+  }
+
   return (
     <div className='form-container'>
       <h2>Create a New Entity</h2>
       <form onSubmit={handleSubmit}>
         <div>
           <label>PC:</label>
-          <input type="text" name="PC" defaultValue={formData.PC} disabled/>
+          <input type="text" name="PC" value={formData.PC} disabled />
         </div>
         <div>
           <label>CPU:</label>
@@ -105,6 +120,10 @@ const PostComponent = () => {
         <div>
           <label>Price (INR):</label>
           <input type="text" name="Price_INR" value={formData.Price_INR} onChange={handleChange} />
+        </div>
+        <div>
+          <label>Creator:</label>
+          <input type="text" name='Creator' value={formData.Creator} onChange={handleChange} />
         </div>
         <button type="submit">Submit</button>
       </form>
